@@ -1,14 +1,21 @@
-
-
 <script setup lang="ts">
+import { emit } from "process";
 import Vditor from "vditor";
 import { onMounted, ref } from "vue";
-const vditor = ref<Vditor | null>();
-const log = () => {
-  console.log("xxxx");
-};
+
+const props = defineProps<{
+  title: string;
+}>();
+const emits = defineEmits<{
+  (e: 'get-html', values?: string): void,
+  (event: 'test', ...params: string[]): void
+}>();
+const vditor = ref<Vditor>();
+defineExpose({
+  instance: vditor.value
+});
 const initVditor = () => {
-  const options = {
+  const options: any = {
     width: "100%",
     height: "0",
     tab: "\t",
@@ -32,14 +39,21 @@ const initVditor = () => {
       },
     },
   };
+  vditor.value = new Vditor('vditor', options);
 };
+
+const onClick = () => {
+  emits('get-html', vditor.value?.getHTML());
+  emits('test', 'test.......')
+}
+
 onMounted(() => {
   initVditor();
 });
 </script>
 
 <template>
-  <div>
-    <button @click="log">点击</button>
-  </div>
+    <span>组件标题：{{props.title}}</span>
+    <div id="vditor" class="vditor" />
+    <button @click="onClick">vditor组件按钮</button>
 </template>

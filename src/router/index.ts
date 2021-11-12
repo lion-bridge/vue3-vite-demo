@@ -7,7 +7,7 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 const routes: RouteRecordRaw[] = [
     {
         path: '/',
-        component: () => import('@/components/StartPage.vue')
+        component: () => import('@/view/StartPage.vue')
     }
 ];
 
